@@ -63,4 +63,29 @@ contract('DappTokenSale', function(accounts) {
 			assert(error.message.indexOf('revert') >= 0, 'cannot purchase more tokens than available'); // Whatever error happens before, it resorts to this error message... hm... not ideal...
 		});
 	});
+
+	it('ends token sale', function() {
+		return DappToken.deployed().then(function(instance) {
+			// Grab token instance first
+			tokenInstance = instance;
+			return DappTokenSale.deployed();
+		}).then(function(instance){
+			// then grab token sale instance
+			tokenSaleInstance = instance;
+			// Try to end sale from account other than the admin
+			return tokenSaleInstance.endSale({ from: buyer});
+		}).then(assert.fail).catch(function(error){
+			assert(error.message.indexOf('revert') >= 0, 'must be admin to end sale');
+			return tokenSaleInstance.endSale({ from: admin });
+		}).then(function(receipt) {
+			return tokenInstance.balanceOf(admin);
+		}).then(function(balance) {
+			assert.equal(balance.toNumber(),999990, 'return all unsold Dapptokens to admin');
+			// Check that contract has no balance
+			return balance = web3.eth.getBalance(tokenSaleInstance.address);
+		}).then(function(balance) {
+			assert.equal(balance,0);
+
+		});
+	});
 })
