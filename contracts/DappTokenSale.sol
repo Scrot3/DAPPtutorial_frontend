@@ -12,8 +12,8 @@ pragma solidity ^0.8.0;
 import "./DappToken.sol";
 
 contract DappTokenSale {
-	address payable admin ; // admin is a state variable, which belongs to the contract, written to blockchain
-							// admin needs to be payable because it gets any remaining balance from contract when closing out.
+	address admin ; // admin is a state variable, which belongs to the contract, written to blockchain
+							
 	// DappToken public tokenContract; // tokenContract is of datatype DappToken. This will give us a getter with the same name since it is a public variable.
 	DappToken public tokenContract;
 	uint256 public tokenPrice;
@@ -23,7 +23,7 @@ contract DappTokenSale {
 
 	constructor(DappToken _tokenContract, uint256 _tokenPrice) public {
 		// Assign an admin (external account connected to blockchain who has special privileges. e.g. end token sale)
-		admin = payable(msg.sender); // who deploys the contract is the admin.
+		admin = msg.sender; // who deploys the contract is the admin.
 
 		// Add reference to Token Contract
 		tokenContract = _tokenContract;
@@ -67,8 +67,8 @@ contract DappTokenSale {
 		require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))));
 		
 		// Let's not destroy the contract here. just transfer the balance to the admin.
-		admin.transfer(address(this).balance);
-
+		payable(admin).transfer(address(this).balance);
+		// admin needs to be payable because it gets any remaining balance from contract when closing out.
 
 	}
 
