@@ -74,18 +74,19 @@ App = {
 		// load account data
 
 		//// This does not work when hosted on Git
-		// web3.eth.getCoinbase(function(err, account) {
-		// 	if(err === null) {
-		// 		console.log("account", account);
-		// 		App.account = account;
-		// 		$('#accountAddress').html("Your Account: " + account); // Querying for the accountAddress in index.html
-		// 	}
-		// })
+		web3.eth.getCoinbase(function(err, account) {
+			if(err === null) {
+				console.log("account", account);
+				App.account = account;
+				$('#accountAddress').html("Your Account: " + account); // Querying for the accountAddress in index.html
+			}
+		})
 
-		var account = web3.eth.getAccounts()[0];
-		console.log("account", account);
-		App.account = account;
-		$('#accountAddress').html("Your Account: " + account); // Querying for the accountAddress in index.html
+		// web3.eth.getAccounts().then(function(account){
+		// 	console.log("account", account[0]);
+		// 	App.account = account[0];
+		// 	$('#accountAddress').html("Your Account: " + account[0]); // Querying for the accountAddress in index.html
+		// });
 					
 
 		// Load token sale contract
