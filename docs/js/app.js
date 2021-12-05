@@ -73,7 +73,7 @@ App = {
 
 		// load account data
 
-		//// This does not work when hosted on Git
+		//// Make sure Metamask is connected to the webpage for this to be able to retrieve your wallet information.
 		web3.eth.getCoinbase(function(err, account) {
 			if(err === null) {
 				console.log("account", account);
@@ -81,12 +81,6 @@ App = {
 				$('#accountAddress').html("Your Account: " + account); // Querying for the accountAddress in index.html
 			}
 		})
-
-		// web3.eth.getAccounts().then(function(account){
-		// 	console.log("account", account[0]);
-		// 	App.account = account[0];
-		// 	$('#accountAddress').html("Your Account: " + account[0]); // Querying for the accountAddress in index.html
-		// });
 					
 
 		// Load token sale contract
