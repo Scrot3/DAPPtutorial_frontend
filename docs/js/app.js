@@ -100,6 +100,7 @@ App = {
 			// Load token contract
 			App.contracts.DappToken.deployed().then(function(instance){
 				dappTokenInstance = instance;
+				console.log(App.account)
 				return dappTokenInstance.balanceOf(App.account);
 
 			}).then(function(balance){
